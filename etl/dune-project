@@ -1,0 +1,26 @@
+(lang dune 3.17)
+
+(name etl)
+
+(generate_opam_files true)
+
+(source
+ (github EduardoMVAz/ocaml-etl))
+
+(authors "Author: Eduardo Mendes Vaz")
+
+(maintainers "Maintainer: Eduardo Mendes Vaz")
+
+(license LICENSE)
+
+(documentation https://url/to/documentation)
+
+(package
+ (name etl)
+ (synopsis "A data ETL developed using ocaml")
+ (description "")
+ (depends ocaml)
+ (tags
+  ("add topics" "to describe" your project)))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
