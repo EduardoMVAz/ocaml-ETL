@@ -30,4 +30,3 @@ type order_with_item = {
   price: float;
   tax: float;
 }
-

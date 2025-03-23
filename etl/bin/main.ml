@@ -46,4 +46,6 @@ let () =
 
   let (status, origin) = get_cli_arguments () in 
   let filtered_orders_with_items = order_filter orders_with_items status origin in
-  ()
+  let summarized_orders = order_summarize filtered_orders_with_items in
+  let csv_parsed_orders = parse_to_csv summarized_orders in 
+  write_order_total_csv "./data/output.csv" csv_parsed_orders

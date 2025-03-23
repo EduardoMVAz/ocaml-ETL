@@ -8,3 +8,10 @@ let read_csv_url url =
   let raw_data = fetch url in
   let data = Csv.of_string raw_data |> Csv.input_all in
   data ;;
+
+let write_order_total_csv path csv_parsed_orders =
+  let file = Csv.to_channel (open_out path) in
+  Csv.output_all file csv_parsed_orders;
+  Csv.close_out file;
+  () ;;
+  
