@@ -6,7 +6,7 @@ type filters = {
 type order = {
   id: int;
   client_id: int;
-  order_date: Ptime.t;
+  order_date: string;
   status: string;
   origin: string;
 }
@@ -19,10 +19,10 @@ type order_item = {
   tax: float;
 }
 
-type inner_join_order_order_item = {
+type order_with_item = {
   order_id: int;
   client_id: int;
-  order_date: Ptime.t;
+  order_date: string;
   status: string;
   origin: string;
   product_id: int;

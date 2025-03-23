@@ -1,13 +1,12 @@
-open Helper ;;
 open Records ;;
 
 let order_mapper (order: string list) : order =
   match order with
   | id :: client_id :: order_date :: status :: origin :: [] ->
     {
-      id = parse_string_to_int id;
-      client_id = parse_string_to_int client_id;
-      order_date = parse_string_to_ptime order_date;
+      id = int_of_string id;
+      client_id = int_of_string client_id;
+      order_date = order_date;
       status = status;
       origin = origin;
     }
@@ -17,15 +16,15 @@ let order_item_mapper (order_item: string list) : order_item =
   match order_item with
   | order_id :: product_id :: quantity :: price :: tax :: [] ->
     {
-      order_id = parse_string_to_int order_id;
-      product_id = parse_string_to_int product_id;
-      quantity = parse_string_to_int quantity;
-      price = parse_string_to_float price;
-      tax = parse_string_to_float tax;
+      order_id = int_of_string order_id;
+      product_id = int_of_string product_id;
+      quantity = int_of_string quantity;
+      price = float_of_string price;
+      tax = float_of_string tax;
     }
     | _ -> failwith "Unable to map order item entity" ;;
 
-let rec inner_join_mapper (orders: order list) (order_items: order_item list) : inner_join_order_order_item list =
+let rec inner_join_mapper (orders: order list) (order_items: order_item list) : order_with_item list =
   match order_items with
   | [] -> []
   | order_item :: t -> 
