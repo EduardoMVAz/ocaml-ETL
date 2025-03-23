@@ -31,7 +31,7 @@ The following steps were followed during the development of this project:
 - [Custom Features Implementation](#custom-features-implementation)
 - [Testing](#testing)
 
-The steps in which Generative AI (such as ChatGPT and Gemini) where used are flagged, and the details of the usage are described on the end of their section.
+The steps in which Generative AI (such as ChatGPT and Gemini) were used are flagged, and the details of the usage are described on the end of their section.
 
 ## Initialization *
 
@@ -41,6 +41,10 @@ The initialization step of the development included:
 - Creating the main file for the project
 - Creating auxiliary functions to read data (CSV functions)
 
+In this first step, all of the file structure of the project was organized, and the functions on ```/etl/lib/reader.ml``` were developed with use of Generative AI. The functions were created to read csv files into a **list of lists of strings** representing the lines of the csv, with the values already separated.
+
+The csv reading was already done by reading an URL exposed via the http protocol, which satisfies the first custom feature (more on the custom features on the last step).
+
 ### * AI Usage
 
 During the development of this section, Generative AI was used for the following purpose:
@@ -49,6 +53,33 @@ During the development of this section, Generative AI was used for the following
 - Creating the functions used to read data from csv files with ocaml.
 
 ## Basic Features Implementation
+
+In the Basic Features step, all of the logic to create the base output desired was implemented.
+
+
+The first part of this step was to create **records** to represent the csv tables **order** and **order_items**. Those, alongside with a record for the **joined** table `order_with_items` were created in the ```/etl/lib/records.ml``` file. The joined table was created in order to satisfy another of the custom features (more on the custom features on the last step).
+
+
+The second part of this step was to create **mappers**: functions that took the **list of lists of strings** representing the lines of the csv and transformed these lines into records of the corresponding types **order** and **order_item** types. These mapper functions were created in the ```/etl/lib/mapper.ml``` file.
+
+
+A third mapper was created to join the tables, **inner_join_mapper**. This mapper receives the list of order records and the list of order_item records, iterates through the order_item list (given that the order_items represent a larger volume than the orders, due to the n-1 relationship) and matches each order_item with and order based on its order_id, using the List.find_opt function through the order list. Then, it creates an entry for each order_item together with it's order information.
+
+
+With the orders and their items joined, the next part of this step was to allow the user to filter by **status** and **origin**. This is done by using command line arguments, and was developed with the help of Generative AI. This implementation allows the user to run the main file in the following ways:
+
+        dune exec bin/main.exe -> Creates the output without filtering
+
+        dune exec bin/main.exe -- --s <STATUS> -> Creates the output while filtering orders by the provided status
+
+        dune exec bin/main.exe -- --o <ORIGIN> -> Creates the output while filtering orders by the provided origin
+
+        dune exec bin/main.exe -- --s <STATUS> --o <ORIGIN> -> Creates the output while filtering orders by the provided status and origin
+
+Then, a filtering function was developed in the ```/etl/lib/transformel.ml``` file, which uses List.filter to filter the received order_with_item list created by the join, removing the items that do not fit the desired status or origin.
+
+
+The next step was to reduce the filtered orders_with_items and create the final output. For that, a reducing function was developed in the ```/etl/lib/transformel.ml``` file.
 
 ## Custom Features Implementation
 
