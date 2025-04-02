@@ -111,7 +111,13 @@ After finishing development, the following features were developed:
 
 - The program's utility functions should be documentated using the **docstring** format -> The functions in the files `helper.ml`, `mapper.ml`, `transfomer.ml` and `reader.ml` were documentated and .mli interface files were created to add onto the documentation process.
 - The project should include tests for all pure functions -> Functions for testing were created in the directory `/etl/tests`. A file for testing was created for each of the main modules of the project's lib. The OUnit2 lib was used for developing the tests. More about the testing is detailed in the [Testing](#testing) section.
+- The program should be able to save data in and SQLite database -> Functions were added in the `reader.ml` file for creating the database and inserting the data into it. An **output.db** file is then created in the `etl/data` directory. This feature was developed with the help of Generative AI to create the functions.
 
+### * AI Usage
+
+During the development of this section, Generative AI was used for the following purposes:
+
+- Generating the functions for saving the data into a sqlite3 database, instead of a csv file.
 
 ## Testing
 
