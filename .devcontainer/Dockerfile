@@ -16,22 +16,6 @@ RUN apt-get update && apt-get install -y \
 
 USER vscode
 
-# Install GHCup for Haskell
-ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
-RUN bash -c "curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh"
-RUN bash -c "curl -sSL https://get.haskellstack.org/ | sh"
-
-# Add ghcup to PATH
-ENV PATH=${PATH}:/home/vscode/.local/bin
-ENV PATH=${PATH}:/home/vscode/.ghcup/bin
-
-# Install cabal
-RUN bash -c "ghcup upgrade"
-RUN bash -c "ghcup install cabal"
-#RUN bash -c "ghcup set cabal 3.4.0.0"
-
-# Install GHC
-RUN bash -c "ghcup install ghc"
 #RUN bash -c "ghcup set ghc 8.10.4"
 
 
