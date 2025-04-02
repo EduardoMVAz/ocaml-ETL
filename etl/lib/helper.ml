@@ -30,3 +30,14 @@ let parse_to_csv summarized_orders =
       ]
     ) summarized_orders
   
+(** Function that rounds floats to 2 decimal houses, used for insertion in the sqlite database. *)
+let round_2 f =
+  Float.round (f *. 100.) /. 100.
+
+(** Function that formats all floats from the summarized orders for insertion in the sqlite database. *)
+let rec parse_floats summarized_orders = 
+  match summarized_orders with
+  | [] -> []
+  | (id, amount, taxes) :: t -> 
+    let rounded = (id, round_2 amount, round_2 taxes) in
+    rounded :: parse_floats t

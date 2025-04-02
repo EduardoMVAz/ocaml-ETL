@@ -47,5 +47,9 @@ let () =
   let (status, origin) = get_cli_arguments () in 
   let filtered_orders_with_items = order_filter orders_with_items status origin in
   let summarized_orders = order_summarize filtered_orders_with_items in
-  let csv_parsed_orders = parse_to_csv summarized_orders in 
-  write_order_total_csv "./data/output.csv" csv_parsed_orders
+  let formatted_summarized_orders = parse_floats summarized_orders in
+
+  let db = Sqlite3.db_open "./data/output.db" in
+  create_table db;
+  save_all_to_db db formatted_summarized_orders;
+  ignore (Sqlite3.db_close db)
