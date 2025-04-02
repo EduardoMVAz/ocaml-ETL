@@ -107,4 +107,26 @@ During the development of the Basic Features, 3 Custom Features were satisfied:
 - The program should be able to read data from an internet file (exposed via http protocol) -> The program read data from an internet file since it's start, having the csv's read from the project's own github repository.
 - The program should be able to join the **order** and **order_item** tables before transforming the data -> The program used the joined table since the start, which was almost the same as filtering the order table before joining with the order_item table.
 
+After finishing development, the following features were developed:
+
+- The program's utility functions should be documentated using the **docstring** format -> The functions in the files `helper.ml`, `mapper.ml`, `transfomer.ml` and `reader.ml` were documentated and .mli interface files were created to add onto the documentation process.
+- The project should include tests for all pure functions -> Functions for testing were created in the directory `/etl/tests`. A file for testing was created for each of the main modules of the project's lib. The OUnit2 lib was used for developing the tests. More about the testing is detailed in the [Testing](#testing) section.
+
+
 ## Testing
+
+The testing of the Helper Functions was done in the the directory `/etl/tests`, using the OUnit2 ocaml lib. Tests for all the pure Helper Functions were created.
+
+`/etl/test/test_helper.ml`: Tests for the helper module. They include: 
+- test_parse_status: Tests the parsing of the status filter, for each of the possible values.
+- test_parse_origin: Tests the parsing of the origin filter, for each of the possible values.
+- test_parse_to_csv: Tests the parsing of lines for the final output into the formatted value for a csv.
+
+`etl/test/test_mapper.ml`: Tests for the mapper module. They include:
+- test_order_mapper: Tests the parsing of lines from the order csv into order records.
+- test_order_item_mapper: Tests the parsing of lines from the order_item csv into order_item records.
+- test_inner_join_mapper: Tests the parsing of order and order_item records into the joined order_with_item record.
+
+`etl/test/test_transformer.ml`: Tests for the transfomer module. They include:
+- test_order_filter: Tests the filtering of order_with_item records. Filters for status, origin, status and origin and no filters, with multiple combinations.
+- test_order_summarize: Tests the summarization of the order_with_item records into the final output. Tests grouping two orders into one summary.

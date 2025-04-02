@@ -1,11 +1,13 @@
 open Records ;;
 
+(** Function for filtering the orders_with_items (joined record) based on the filters chosen by the user, Origin and Status. *)
 let order_filter (orders_with_items: order_with_item list) (status: string) (origin: string) : order_with_item list = 
   List.filter ( fun owi ->
     (status = "" || owi.status = status) &&
     (origin = "" || owi.origin = origin)
   ) orders_with_items
 
+(** Function for reducing the orders_with_items (joined record) into the desired output, a summary for each order. *)
 let order_summarize (filtered_orders_with_items: order_with_item list) : (int * float * float) list = 
   List.fold_left (fun acc filtered_order_with_item ->
     let existing_order, other_orders = List.partition (fun (id, _, _) -> id = filtered_order_with_item.order_id) acc in 

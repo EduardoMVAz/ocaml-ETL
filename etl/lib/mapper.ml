@@ -1,5 +1,6 @@
 open Records ;;
 
+(** Function that receives the lines of the order.csv file and parses them into the order record. *)
 let order_mapper (order: string list) : order =
   match order with
   | id :: client_id :: order_date :: status :: origin :: [] ->
@@ -12,6 +13,7 @@ let order_mapper (order: string list) : order =
     }
   | _ -> failwith "Unable to map order entity" ;;
 
+(** Function that receives the lines of the order_item.csv file and parses them into the order_item record. *)
 let order_item_mapper (order_item: string list) : order_item = 
   match order_item with
   | order_id :: product_id :: quantity :: price :: tax :: [] ->
@@ -24,6 +26,10 @@ let order_item_mapper (order_item: string list) : order_item =
     }
     | _ -> failwith "Unable to map order item entity" ;;
 
+(** Function that receives the order and order_item records and joins them based on the order_id. 
+    The function iterates through the order_items and matches them with their orders, creating
+    a new record for each match.
+*)
 let rec inner_join_mapper (orders: order list) (order_items: order_item list) : order_with_item list =
   match order_items with
   | [] -> []
